@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--配置bean -->
+<!-- 	<bean id="usersDaoImpl" class="com.ssh.dao.impl.UsersDaoImpl" scope="prototype"> -->
+<!-- 		<property name="sessionFactory" > -->
+<!-- 			<ref bean="sessionFactory"/> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+	
+<!-- 	<bean id="usersServiceImpl" class="com.ssh.service.impl.UsersServiceImpl" scope="prototype"> -->
+<!-- 		<property name="usersDao" > -->
+<!-- 			<ref bean="usersDaoImpl"/> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
+</beans>

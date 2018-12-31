@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<!-- 普通JDBC连接，取代 hiberbnate.cfg.xml
+	<bean id="candy" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName"
+			value="com.microsoft.sqlserver.jdbc.SQLServerDriver">
+		</property>
+		<property name="url"
+			value="jdbc:sqlserver://localhost:1433;DatabaseName=SSHDB">
+		</property>
+		<property name="username" value="sa"></property>
+		<property name="password" value="zhbit"></property>
+	</bean>
+	 -->
+	 <!-- 采用C3P0数据库连接池方式连接数据库 -->
+	<bean id= "candy" class ="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" >
+        <property name="driverClass"
+             value="com.microsoft.sqlserver.jdbc.SQLServerDriver" >
+        </property>
+        <property name="jdbcUrl"
+             value="jdbc:sqlserver://localhost:1433;databaseName=SSHDB" >
+        </property>
+        <property name="user" value="sa"></property>
+        <property name="password" value="1234"></property>
+        <!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 1 -->
+        <property name="acquireIncrement" value="1" ></property>
+        <!--初始化时获取三个连接，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+        <property name="initialPoolSize" value="10" ></property>
+        <!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+        <property name="maxIdleTime" value="60"></property>
+        <!--连接池中保留的最大连接数。Default: 15 -->
+        <property name="maxPoolSize" value="150"></property>
+        <!--连接池中保留的最小连接数。Default: 3 -->
+        <property name="minPoolSize" value="5"></property>
+        <!--两次连接中间隔时间，单位毫秒。Default: 1000 -->
+        <property name="acquireRetryDelay" value="1000"></property>
+        <!--定义在从数据库获取新连接失败后重复尝试的次数。Default: 30 -->
+        <property name="acquireRetryAttempts" value="60"></property>
+        <!--获取连接失败将会引起所有等待连接池来获取连接的线程抛出异常。但是数据源仍有效
+        	保留，并在下次调用getConnection()的时候继续尝试获取连接。如果设为true，那么在尝试
+        	获取连接失败后该数据源将申明已断开并永久关闭。Default: false-->       
+        <property name="breakAfterAcquireFailure" value="false" ></property>  
+    </bean>
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 设置注入 -->
+		<property name="dataSource">
+			<ref bean="candy" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.SQLServerDialect
+				</prop>
+			</props>
+		</property>
+		<!-- 说明映射文件 -->
+		<property name="mappingResources">
+			<list>
+				<value>com/ssh/models/Users.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 事物管理 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+</beans>	

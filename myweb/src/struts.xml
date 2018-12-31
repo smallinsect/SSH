@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!-- 表示使用spring框架，本配置文件中所有action都要到spring配置文件中查找 -->
+	<constant name="struts.objectFactory" value="spring" />
+	<include file="struts-default.xml"/>
+	<package name="default" extends="struts-default">
+		<!-- action实际配置在applicationContext-beans.xml配置文件中 -->
+		<action name="tbaction" class="testAction" method="tbaction">
+			<result name="success">success.jsp</result>
+			<result name="fail">fail.jsp</result>
+		</action>
+		
+		<action name="getUserInfo" class="sparkAction" method="getUserInfo">
+		</action>
+		
+		<action name="getVideoInfo" class="sparkAction" method="getVideoInfo">
+		</action>
+	</package> 
+</struts>
